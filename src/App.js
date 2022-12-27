@@ -2,12 +2,13 @@ import logo from './logo.svg';
 import './App.css';
 import { useState } from 'react';
 
-function Modal() {
+function Modal(props) {
   return (
     <div className="modal">
-      <h4>제목</h4>
+      <h4>{props.titles[0]}</h4>
       <p> 날짜 </p>
       <p> 상세내용 </p>
+      <button onClick={props.onClick}>글 수정</button>
     </div>
   );
 }
@@ -67,7 +68,10 @@ function App() {
     }
 
     {
-      modal == true ? <Modal /> : null
+      modal == true ? <Modal titles={titles} onClick={()=>{
+      let copy = [...titles];
+      copy[0] = '여자 코트 추천';
+      setTitles(copy);}} /> : null
     }
 
     </div>
