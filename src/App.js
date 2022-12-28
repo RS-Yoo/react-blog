@@ -22,6 +22,8 @@ function App() {
   let [modal, setModal] = useState(false);
   let [clickedTitle, setClickedTitle] = useState();
 
+  let [inputTitle, setInputTitle] = useState();
+
   return (
     <div className="App">
     <div className="black-nav">
@@ -60,12 +62,23 @@ function App() {
             <h4 onClick={()=>{
               setModal(!modal);
               setClickedTitle(i)
-              }}>{t} <span onClick={()=>{
+              }}>{t} <span onClick={(e)=>{
+              e.stopPropagation();
               let copy = [...likes];
               copy[i] += 1;
               setLikes(copy);
             }}>👍</span> {likes[i]} </h4>
-            <p>{dates[i]}</p>
+            <p>{dates[i]}</p><button onClick={() => {
+              let titleCopy = [...titles];
+              titleCopy.splice(i, 1);
+              setTitles(titleCopy);
+              let likeCopy = [...likes];
+              likeCopy.splice(i, 1);
+              setLikes(likeCopy);
+              let dateCopy = [...dates];
+              dateCopy.splice(i, 1);
+              setDates(dateCopy);
+            }}>삭제</button>
           </div>
         )
       })
@@ -77,6 +90,18 @@ function App() {
       copy[0] = '여자 코트 추천';
       setTitles(copy);}} clickedTitle={clickedTitle} /> : null
     }
+
+    <input onChange={(e) => {
+      setInputTitle(e.target.value)
+    }} />
+    <button onClick={() => {
+      let titleCopy = [inputTitle, ...titles];
+      setTitles(titleCopy);
+      let likeCopy = [0, ...likes];
+      setLikes(likeCopy);
+      let dateCopy = ['2월 20일 발행', ...dates];
+      setDates(dateCopy);
+    }}>Post</button>
 
     </div>
   );
