@@ -5,7 +5,7 @@ import { useState } from 'react';
 function Modal(props) {
   return (
     <div className="modal">
-      <h4>{props.titles[0]}</h4>
+      <h4>{props.titles[props.clickedTitle]}</h4>
       <p> 날짜 </p>
       <p> 상세내용 </p>
       <button onClick={props.onClick}>글 수정</button>
@@ -20,6 +20,7 @@ function App() {
   let [likes, setLikes] = useState([0, 0, 0]);
 
   let [modal, setModal] = useState(false);
+  let [clickedTitle, setClickedTitle] = useState();
 
   return (
     <div className="App">
@@ -56,7 +57,10 @@ function App() {
       titles.map((t, i) => {
         return (
           <div className="list" key={i}>
-            <h4 onClick={()=>{setModal(!modal)}}>{t} <span onClick={()=>{
+            <h4 onClick={()=>{
+              setModal(!modal);
+              setClickedTitle(i)
+              }}>{t} <span onClick={()=>{
               let copy = [...likes];
               copy[i] += 1;
               setLikes(copy);
@@ -71,7 +75,7 @@ function App() {
       modal == true ? <Modal titles={titles} onClick={()=>{
       let copy = [...titles];
       copy[0] = '여자 코트 추천';
-      setTitles(copy);}} /> : null
+      setTitles(copy);}} clickedTitle={clickedTitle} /> : null
     }
 
     </div>
